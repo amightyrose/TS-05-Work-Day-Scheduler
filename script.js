@@ -26,10 +26,12 @@ function renderScheduler() {
 	colorTimeBlocks();
 
 
-	// Call the retrieveEntries function to get any saved items from storage. If objScheduleEntries is not empty
-	// call the populateTimeBlocks function to add the existing entries to the schedule.
+	// Call the retrieveEntries function to get any saved items from storage.
 	retrieveEntries();
 
+
+	// If objScheduleEntries is empty, write an empty string to all the time blocks to clear text left over from other days.
+	// Otherwise, call the populateTimeBlocks function to add the existing entries to the schedule.
 	if (Object.keys(objScheduleEntries).length > 0) {
 		populateTimeBlocks();
 	}
