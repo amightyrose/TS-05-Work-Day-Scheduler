@@ -2,6 +2,7 @@
 // Declare a couple of global variables.
 var objScheduleEntries = {};
 var strStorageKey;
+var dtmCurrent = moment();
 
 
 // Render the scheduler for the current day.
@@ -9,11 +10,11 @@ function renderScheduler() {
 
 
 	// Show the current day in the header.
-	$("#currentDay").text(moment().format("dddd, Do MMMM, YYYY"));
+	$("#currentDay").text(dtmCurrent.format("dddd, Do MMMM, YYYY"));
 
 
-	// Create a variable to use as the key for the current day's entry in localstorage.
-	strDate = moment().format("YYYYMMDD");
+	// Create a variable to use as the key for the displayed day's entry in localstorage.
+	strDate = dtmCurrent.format("YYYYMMDD");
 	strStorageKey = `${strDate}scheduleEntries`
 
 
@@ -41,26 +42,34 @@ function renderScheduler() {
 function colorTimeBlocks() {
 
 
-	// Get the current hour
-	let currentHour = moment().hour();
+	// Get the time at the start of the current hour.
+	let dtmCurrentHour = moment().startOf("hour");
 
 
 	// Loop through each row and add colours according to current hour.
 	$(".event-text").each(function () {
 
+
 		// Get the id attribute of the time block.
-		let blockHour = parseInt($(this).parent().attr("id"));
+		let blockID = parseInt($(this).parent().attr("id"));
+
+
+		// Use blockID to find the date/time at the start of the hour for the displayed day.
+		let blockDateTime = dtmCurrent.hour(blockID);
+		let dtmBlockHour = blockDateTime.startOf("hour");
+
 
 		// Compare to the current hour and then colour accordingly by updating classes.
-		if (blockHour < currentHour) {
+		if (dtmBlockHour < dtmCurrentHour) {
 			$(this).removeClass("present future").addClass("past");
 		}
-		else if (blockHour > currentHour) {
+		else if (dtmBlockHour > dtmCurrentHour) {
 			$(this).removeClass("present past").addClass("future");
 		}
 		else {
 			$(this).removeClass("past future").addClass("present")
 		}
+
 
 	});
 
@@ -184,6 +193,35 @@ $(".row").on("click", ".saveBtn", function() {
 
 	// Call the saveTimeBlock function to save the text to an object.
 	saveTimeBlock(blockHour);
+
+
+});
+
+
+// Listener for previous day button.
+$("#prev-day").on("click", function() {
+
+
+	// Set the current day to one day less.
+	dtmCurrent = dtmCurrent.subtract(1, "day");
+
+
+	// Re-render the schedule.
+	renderScheduler();
+
+
+});
+
+
+// Listener for next day button.
+$("#next-day").on("click", function() {
+
+	// Set the current day to one day more.
+	dtmCurrent = dtmCurrent.add(1, "day");
+
+
+	// Re-render the schedule.
+	renderScheduler();
 
 
 });

@@ -17,8 +17,7 @@ textarea{
   text-align: center;
   background-color: transparent;
   color: black;
-  border-radius: 0;
-  border-bottom: 10px solid black;
+  margin-bottom: 0;
 }
 
 .description{
@@ -26,13 +25,11 @@ textarea{
 }
 
 .time-block{
-  text-align: center;
-  border-radius: 15px;
+  height: 80px;
 }
 
 .row {
   white-space: pre-wrap;
-  height: 80px;
   border-top: 1px solid white;;
 }
 
@@ -64,7 +61,7 @@ textarea{
   border-left: 1px solid black;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: #06AED5;
+  background-color: #17a2b8;
   color: white;
 }
 
