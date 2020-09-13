@@ -18,7 +18,11 @@ function renderScheduler() {
 	strStorageKey = `${strDate}scheduleEntries`
 
 
-	// Call the function to colour in the time blocks.
+	// Reset the objScheduleEntries object.
+	objScheduleEntries = {};
+
+
+	// Call the colorTimeBlocks function to colour in the time blocks.
 	colorTimeBlocks();
 
 
@@ -28,6 +32,9 @@ function renderScheduler() {
 
 	if (Object.keys(objScheduleEntries).length > 0) {
 		populateTimeBlocks();
+	}
+	else {
+		$(".event-text").val("");
 	}
 
 
