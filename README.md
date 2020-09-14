@@ -17,7 +17,7 @@ Text can be entered in each time block and then saved by clicking the save butto
 When a user saves a time block it is written to localstorage so the data will persist across browser sessions.
 
 ## Development
-This application was written in JavaScript and uses the JQuery library. It was styled with Bootstrap and custom CSS.
+This application was written in JavaScript and uses the jQuery library. It was styled with Bootstrap and custom CSS.
 
 ---
 
