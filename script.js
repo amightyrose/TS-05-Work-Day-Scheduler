@@ -181,8 +181,22 @@ function saveTimeBlock(hour) {
 // Stringify and save the objScheduleEntries object to localstorage.
 function saveSchedule() {
 
-	let strScheduleEntries = JSON.stringify(objScheduleEntries);
-	localStorage.setItem(strStorageKey, strScheduleEntries);
+
+	// First check to see if there is anything in the object. If so, save it.
+	// If not, remove entry from storage if it exists.
+	if (Object.keys(objScheduleEntries).length > 0) {
+
+		let strScheduleEntries = JSON.stringify(objScheduleEntries);
+		localStorage.setItem(strStorageKey, strScheduleEntries);
+
+	}
+	else {
+
+		if (localStorage.getItem(strStorageKey) !== null) {
+			localStorage.removeItem(strStorageKey);
+		}
+
+	}
 
 }
 
