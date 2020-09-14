@@ -5,6 +5,8 @@
 	<img src="https://user-images.githubusercontent.com/69242373/93039050-dd2eb680-f689-11ea-86a0-07a9858d003c.png">
 </div>
 
+View the application here: <https://timsilby.github.io/TS-05-Work-Day-Scheduler/>
+
 ## Usage
 Work Day Scheduler displays a list of one hour time blocks for each day. It covers business hours (9 am to 5 pm). Clicking the chevrons to either side of the date will change the day currently being displayed.
 
