@@ -6,7 +6,7 @@
 </div>
 
 ## Usage
-Work Day Scheduler displays a list of one hour time blocks for each day. It covers business hours (9 am to 5 pm).
+Work Day Scheduler displays a list of one hour time blocks for each day. It covers business hours (9 am to 5 pm). Clicking the chevrons to either side of the date will change the day currently being displayed.
 
 Each time block is coloured according to whether the hour is in the past, present or future. The colour is updated dynamically at the beginning of each hour.
 
@@ -15,7 +15,7 @@ Text can be entered in each time block and then saved by clicking the save butto
 When a user saves a time block it is written to localstorage so the data will persist across browser sessions.
 
 ## Development
-This application was written in JavaScript and the JQuery library. It was styled with Bootstrap and custom CSS.
+This application was written in JavaScript and uses the JQuery library. It was styled with Bootstrap and custom CSS.
 
 ---
 
