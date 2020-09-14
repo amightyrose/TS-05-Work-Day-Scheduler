@@ -18,6 +18,12 @@ h1, p {
   color: white;
 }
 
+.wrapper {
+  background-color: #837569;
+  max-width: 80%;
+  margin: 0 auto;
+}
+
 .jumbotron {
   text-align: center;
   background-color: #241623;
@@ -47,18 +53,18 @@ h1, p {
 }
 
 .past {
-  background-color: #d3d3d3;
-  color: white;
+  background-color: #D7DDCF;
+  color: lightslategray;
 }
 
 .present {
-  background-color: #ff6961;
+  background-color: #9BAA88;
   color: black;
 }
 
 .future {
-  background-color: #77dd77;
-  color: black;
+  background-color: #566246;
+  color: white;
 }
 
 .saveBtn {
@@ -67,11 +73,14 @@ h1, p {
   border-color: transparent;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: #17a2b8;
   color: white;
 }
 
-.saveBtn i:hover {
-  font-size: 20px;
+.saveBtn:hover {
+  font-size: 150%;
   transition: all .3s ease-in-out;
 }
+
+
+
+/* FF5E5B */

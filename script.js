@@ -18,8 +18,10 @@ function renderScheduler() {
 	strStorageKey = `${strDate}scheduleEntries`
 
 
-	// Reset the objScheduleEntries object.
+	// Reset the objScheduleEntries object and write empty strings to the time blocks to clear
+	// any existing entries.
 	objScheduleEntries = {};
+	$(".event-text").val("");
 
 
 	// Call the colorTimeBlocks function to colour in the time blocks.
@@ -30,13 +32,10 @@ function renderScheduler() {
 	retrieveEntries();
 
 
-	// If objScheduleEntries is empty, write an empty string to all the time blocks to clear text left over from other days.
-	// Otherwise, call the populateTimeBlocks function to add the existing entries to the schedule.
+	// If objScheduleEntries is not empty, call the populateTimeBlocks function to add the
+	// existing entries to the schedule.
 	if (Object.keys(objScheduleEntries).length > 0) {
 		populateTimeBlocks();
-	}
-	else {
-		$(".event-text").val("");
 	}
 
 
