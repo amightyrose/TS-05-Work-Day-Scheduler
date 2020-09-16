@@ -1,5 +1,5 @@
 
-// Declare a few of global variables.
+// Declare a few global variables.
 var objScheduleEntries = {};
 var strStorageKey;
 var dtmCurrent = moment();
