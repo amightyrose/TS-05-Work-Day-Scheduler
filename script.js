@@ -1,8 +1,9 @@
 
-// Declare a couple of global variables.
+// Declare a few of global variables.
 var objScheduleEntries = {};
 var strStorageKey;
 var dtmCurrent = moment();
+var strSlide = "slide1";
 
 
 // Render the scheduler for the current day.
@@ -10,7 +11,7 @@ function renderScheduler() {
 
 
 	// Show the current day in the header.
-	$("#currentDay").text(dtmCurrent.format("dddd, Do MMMM, YYYY"));
+	$("#current-date").text(dtmCurrent.format("dddd, Do MMMM, YYYY"));
 
 
 	// Create a variable to use as the key for the displayed day's entry in localstorage.
@@ -21,7 +22,7 @@ function renderScheduler() {
 	// Reset the objScheduleEntries object and write empty strings to the time blocks to clear
 	// any existing entries.
 	objScheduleEntries = {};
-	$(".event-text").val("");
+	$("#" + strSlide + " .event-text").val("");
 
 
 	// Call the colorTimeBlocks function to colour in the time blocks.
@@ -55,11 +56,11 @@ function colorTimeBlocks() {
 
 
 	// Loop through each row and add colours according to current hour.
-	$(".event-text").each(function () {
+	$("#" + strSlide + " .event-text").each(function () {
 
 
-		// Get the id attribute of the time block.
-		let blockID = parseInt($(this).parent().attr("id"));
+		// Get the data-hour attribute of the time block.
+		let blockID = parseInt($(this).parent().attr("data-hour"));
 
 
 		// Use blockID to find the date/time at the start of the hour for the displayed day.
@@ -112,7 +113,7 @@ function populateTimeBlocks() {
 	for (const hour in objScheduleEntries) {
 
 		// Get the textarea of the timeblock and add the text from the object.
-		$("#" + hour + " > textarea").val(objScheduleEntries[hour]);
+		$("#" + strSlide + " > div[data-hour='" + hour + "'] > .event-text").val(objScheduleEntries[hour]);
 
 	}
 
@@ -150,7 +151,7 @@ function saveTimeBlock(hour) {
 
 
 	// Get the text from the time block.
-	let timeBlockText = $("#" + hour + " textarea").val();
+	let timeBlockText = $("[data-hour='" + hour + "'] > textarea").val();
 
 
 	// If the text is an empty string, we need to check objScheduleEntries to see if there is an entry for
@@ -198,6 +199,7 @@ function saveSchedule() {
 
 	}
 
+
 }
 
 
@@ -210,7 +212,7 @@ $(".row").on("click", ".saveBtn", function() {
 
 
 	// Get the id from the button's parent row and use it to represent the hour.
-	let blockHour = $(this).parent().attr("id");
+	let blockHour = $(this).parent().attr("data-hour");
 
 
 	// Call the saveTimeBlock function to save the text to an object.
@@ -221,29 +223,62 @@ $(".row").on("click", ".saveBtn", function() {
 
 
 // Listener for previous day button.
-$("#prev-day").on("click", function() {
+$("#prev-day-btn").on("click", function() {
 
 
 	// Set the current day to one day less.
 	dtmCurrent = dtmCurrent.subtract(1, "day");
 
+	// Render the slide currently not showing with the previous day's stuff by setting
+	// the strSlide variable and calling renderScheduler.
+	if (strSlide === "slide1") {
+		strSlide = "slide2";
+	}
+	else {
+		strSlide = "slide1";
+	}
 
 	// Re-render the schedule.
 	renderScheduler();
+
+	// Move to the other slide on the carousel.
+	$(".carousel").carousel("prev");
 
 
 });
 
 
 // Listener for next day button.
-$("#next-day").on("click", function() {
+$("#next-day-btn").on("click", function() {
+
 
 	// Set the current day to one day more.
 	dtmCurrent = dtmCurrent.add(1, "day");
 
+	// Render the slide currently not showing with the next day's stuff by setting
+	// the strSlide variable and calling renderScheduler.
+	if (strSlide === "slide1") {
+		strSlide = "slide2";
+	}
+	else {
+		strSlide = "slide1";
+	}
 
 	// Re-render the schedule.
 	renderScheduler();
 
+
+	// Move to the other slide on the carousel.
+	$(".carousel").carousel("next");
+
+
+});
+
+
+// Listener for the carousel. When the slide stops transitioning this will pause the carousel
+// cycling. Needed because the carousel sometimes ignores the data-ride=false attribute.
+$(".carousel").on("slid.bs.carousel", function() {
+
+	$(".carousel").carousel("pause");
 
 });
