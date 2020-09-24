@@ -1,6 +1,6 @@
 
 // Declare a few global variables.
-var objScheduleEntries = {};
+// var objScheduleEntries = {};
 var strStorageKey;
 var dtmCurrent = moment();
 var strSlide = "slide1";
@@ -21,7 +21,7 @@ function renderScheduler() {
 
 	// Reset the objScheduleEntries object and write empty strings to the time blocks to clear
 	// any existing entries.
-	objScheduleEntries = {};
+	// objScheduleEntries = {};
 	$("#" + strSlide + " .event-text").val("");
 
 
@@ -30,13 +30,13 @@ function renderScheduler() {
 
 
 	// Call the retrieveEntries function to get any saved items from storage.
-	retrieveEntries();
+	let objScheduleEntries = retrieveEntries();
 
 
 	// If objScheduleEntries is not empty, call the populateTimeBlocks function to add the
 	// existing entries to the schedule.
 	if (Object.keys(objScheduleEntries).length > 0) {
-		populateTimeBlocks();
+		populateTimeBlocks(objScheduleEntries);
 	}
 
 
@@ -87,7 +87,12 @@ function colorTimeBlocks() {
 
 
 // Function to retrieve any stored items from localstorage and put them into objScheduleEntries.
+// Returnes an object with the items retrieved or an empty object.
 function retrieveEntries() {
+
+
+	// Create an empty object.
+	let objScheduleEntries = {};
 
 
 	// Try getting the YYYYMMDDscheduleEntries item from storage.
@@ -102,11 +107,15 @@ function retrieveEntries() {
 	}
 
 
+	// Return the object, even if it's empty.
+	return objScheduleEntries;
+
+
 }
 
 
 // Function to populate the time blocks with entries from localstorage.
-function populateTimeBlocks() {
+function populateTimeBlocks(objScheduleEntries) {
 
 
 	// Loop through all the entries in objScheduleEntries.
@@ -147,40 +156,39 @@ function startHourlyTimer() {
 
 
 // Save the text from the corresponding time block into objScheduleEntries when the save button is clicked.
-function saveTimeBlock(hour) {
+function saveTimeBlock(blockHour, blockText) {
 
 
-	// Get the text from the time block.
-	let timeBlockText = $("[data-hour='" + hour + "'] > textarea").val();
+	// Get entries from localstorage if there are any. Function will otherwise return an empty object.
+	let objScheduleEntries = retrieveEntries();
 
 
 	// If the text is an empty string, we need to check objScheduleEntries to see if there is an entry for
 	// that hour and if so, delete it. Otherwise, write the value to the object.
+	if (blockText === "") {
 
-	if (timeBlockText === "") {
-
-		if (objScheduleEntries.hasOwnProperty(hour)) {
-			delete objScheduleEntries[hour];
+		if (objScheduleEntries.hasOwnProperty(blockHour)) {
+			delete objScheduleEntries[blockHour];
 		}
 
 	}
 	else {
 
 		// Write the new value back to the objScheduleEntries object
-		objScheduleEntries[hour] = timeBlockText;
+		objScheduleEntries[blockHour] = blockText;
 
 	}
 
 
 	// Call the saveSchedule function to write everything to localstorage.
-	saveSchedule();
+	saveSchedule(objScheduleEntries);
 
 
 }
 
 
 // Stringify and save the objScheduleEntries object to localstorage.
-function saveSchedule() {
+function saveSchedule(objScheduleEntries) {
 
 
 	// First check to see if there is anything in the object. If so, save it.
@@ -211,12 +219,14 @@ renderScheduler();
 $(".row").on("click", ".saveBtn", function() {
 
 
-	// Get the id from the button's parent row and use it to represent the hour.
+	// Get the data-hour from the button's parent row and use it to represent the hour.
 	let blockHour = $(this).parent().attr("data-hour");
 
+	// Get the text from the time block.
+	let blockText = $(this).prev("textarea").val();
 
 	// Call the saveTimeBlock function to save the text to an object.
-	saveTimeBlock(blockHour);
+	saveTimeBlock(blockHour, blockText);
 
 
 });
